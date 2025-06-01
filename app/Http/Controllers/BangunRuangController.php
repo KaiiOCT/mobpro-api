@@ -11,7 +11,17 @@ class BangunRuangController extends Controller
     {
         $data = BangunRuang::all();
         return response()->json($data);
-//        return view('show', compact('data'));
+    //    return view('show', compact('data'));
+
+        // $data = BangunRuang::all()->map(function ($item) {
+        //     return [
+        //         'id' => $item->id,
+        //         'nama' => $item->nama,
+        //         'gambar' => asset('storage/' . $item->gambar), // ini akan jadi URL lengkap
+        //     ];
+        // });
+
+        // return response()->json($data);
     }
 
     public function create()
