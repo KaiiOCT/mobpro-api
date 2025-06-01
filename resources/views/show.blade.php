@@ -11,6 +11,7 @@
         <tr>
             <th>Nama</th>
             <th>Gambar</th>
+            <th>Aksi</th>
         </tr>
         </thead>
         <tbody id="data-table">
@@ -18,6 +19,15 @@
             <tr>
                 <td>{{ $bangun->nama }}</td>
                 <td><img src="{{ asset('storage/' . $bangun->gambar) }}" width="100" alt="{{ $bangun->nama }}"></td>
+                <td>
+                    <form action="{{ route('destroy', $bangun->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" style="background-color:red; color:white; border:none; padding:5px 10px; cursor:pointer;">
+                            Delete
+                        </button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>

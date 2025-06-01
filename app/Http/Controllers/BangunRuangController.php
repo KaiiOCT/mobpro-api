@@ -4,24 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\BangunRuang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BangunRuangController extends Controller
 {
     public function index()
     {
         $data = BangunRuang::all();
-        return response()->json($data);
-    //    return view('show', compact('data'));
-
-        // $data = BangunRuang::all()->map(function ($item) {
-        //     return [
-        //         'id' => $item->id,
-        //         'nama' => $item->nama,
-        //         'gambar' => asset('storage/' . $item->gambar), // ini akan jadi URL lengkap
-        //     ];
-        // });
-
-        // return response()->json($data);
+//        return response()->json($data);
+        return view('show', compact('data'));
     }
 
     public function create()
@@ -45,4 +36,20 @@ class BangunRuangController extends Controller
 
         return redirect()->route('show')->with('success', 'Data berhasil ditambahkan.');
     }
+
+    public function destroy($id)
+    {
+        $bangunRuang = BangunRuang::findOrFail($id);
+
+        // Hapus file gambar jika ada
+        if ($bangunRuang->gambar && Storage::disk('public')->exists($bangunRuang->gambar)) {
+            Storage::disk('public')->delete($bangunRuang->gambar);
+        }
+
+        // Hapus data dari database
+        $bangunRuang->delete();
+
+        return redirect()->route('show')->with('success', 'Data berhasil dihapus.');
+    }
+
 }
