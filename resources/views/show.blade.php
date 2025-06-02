@@ -20,7 +20,7 @@
                 <td>{{ $bangun->nama }}</td>
                 <td><img src="{{ asset('storage/' . $bangun->gambar) }}" width="100" alt="{{ $bangun->nama }}"></td>
                 <td>
-                    <form action="{{ route('destroy', $bangun->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                    <form action="/bangun-ruang/{{ $bangun->id }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" style="background-color:red; color:white; border:none; padding:5px 10px; cursor:pointer;">
