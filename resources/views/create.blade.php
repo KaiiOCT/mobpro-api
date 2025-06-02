@@ -1,7 +1,7 @@
 <div class="container">
     <h2>Tambah Bangun Ruang</h2>
 
-    <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
+    <form action="/bangun-ruang/store" method="POST" enctype="multipart/form-data">
         @csrf
         <div>
             <label>Nama:</label>
