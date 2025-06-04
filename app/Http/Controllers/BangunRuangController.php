@@ -25,6 +25,7 @@ class BangunRuangController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'user_id' => 'required|string',
         ]);
 
         $path = $request->file('gambar')->store('gambar-bangun-ruang', 'public');
@@ -32,6 +33,7 @@ class BangunRuangController extends Controller
         BangunRuang::create([
             'nama' => $request->nama,
             'gambar' => $path,
+            'user_id' => $request->user_id,
         ]);
 
         return response()->json([
