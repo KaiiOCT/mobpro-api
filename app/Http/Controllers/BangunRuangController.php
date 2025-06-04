@@ -8,17 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 class BangunRuangController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $userId = $request->query('user_id');  // atau bisa pake route param
-
-        if ($userId) {
-            $data = BangunRuang::where('user_id', $userId)->get();
-        } else{
-            $data = BangunRuang::all();
-        }
-
+        $data = BangunRuang::all();
         return response()->json($data);
+//        return view('show', compact('data'));
     }
 
     public function create()
@@ -30,7 +24,7 @@ class BangunRuangController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'gambar' => 'required|image|mimes:jpg,jpeg,png',
+            'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $path = $request->file('gambar')->store('gambar-bangun-ruang', 'public');
