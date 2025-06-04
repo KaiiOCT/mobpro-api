@@ -34,12 +34,7 @@ class BangunRuangController extends Controller
         ]);
 
         $path = $request->file('gambar')->store('gambar-bangun-ruang', 'public');
-
-        // Coba berbagai cara mengambil header Authorization
-        $email = $request->header('Authorization')
-            ?? $request->header('authorization')
-            ?? $request->server('HTTP_AUTHORIZATION')
-            ?? $request->bearerToken();
+        $email = $request->header('Authorization'); // <- ambil dari header
 
         BangunRuang::create([
             'nama' => $request->nama,
