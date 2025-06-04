@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BangunRuang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class BangunRuangController extends Controller
@@ -22,13 +23,14 @@ class BangunRuangController extends Controller
 
     public function store(Request $request)
     {
+        Log::info('Headers: ', $request->headers->all());
         $request->validate([
             'nama' => 'required|string|max:255',
             'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $path = $request->file('gambar')->store('gambar-bangun-ruang', 'public');
-        $email = $request->header('X-User-Email'); // <- ambil dari header
+        $email = $request->header('Authorization'); // <- ambil dari header
 
         BangunRuang::create([
             'nama' => $request->nama,
