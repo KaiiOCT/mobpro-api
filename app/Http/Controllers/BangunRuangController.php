@@ -31,11 +31,13 @@ class BangunRuangController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'user_id' => 'required|exists:users,id',  // pastikan user_id valid
+            'user_id' => 'required|exists:users,id',
         ]);
 
+        // Simpan file gambar ke storage
         $path = $request->file('gambar')->store('gambar-bangun-ruang', 'public');
 
+        // Buat data baru di database
         $bangunRuang = BangunRuang::create([
             'nama' => $request->nama,
             'gambar' => $path,
@@ -52,6 +54,7 @@ class BangunRuangController extends Controller
     public function destroy(Request $request, $id)
     {
         $userId = $request->query('userId');
+
         if (!$userId) {
             return response()->json([
                 'status' => 'failed',
@@ -61,7 +64,7 @@ class BangunRuangController extends Controller
 
         $bangunRuang = BangunRuang::findOrFail($id);
 
-        // Cek apakah data ini milik user yang request (authorization sederhana)
+        // Pastikan user yang menghapus adalah pemilik data
         if ($bangunRuang->user_id != $userId) {
             return response()->json([
                 'status' => 'failed',
@@ -82,5 +85,6 @@ class BangunRuangController extends Controller
             'message' => 'Data berhasil dihapus.'
         ]);
     }
+
 
 }
