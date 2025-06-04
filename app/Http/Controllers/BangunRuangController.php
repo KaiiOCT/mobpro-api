@@ -14,6 +14,8 @@ class BangunRuangController extends Controller
 
         if ($userId) {
             $data = BangunRuang::where('email', $userId)->get();
+        } else{
+            $data = BangunRuang::all();
         }
 
         return response()->json($data);
