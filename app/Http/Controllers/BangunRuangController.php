@@ -29,24 +29,46 @@ class BangunRuangController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'gambar' => 'required|image|mimes:jpg,jpeg,png',
+            'user_id' => 'required|string', // atau sesuai tipe user_id (string jika google id)
         ]);
 
+        // Simpan file gambar ke storage public
         $path = $request->file('gambar')->store('gambar-bangun-ruang', 'public');
 
-        BangunRuang::create([
+        // Buat data baru dengan user_id
+        $bangunRuang = BangunRuang::create([
             'nama' => $request->nama,
             'gambar' => $path,
+            'user_id' => $request->user_id,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Data berhasil ditambahkan.'
+            'message' => 'Data berhasil ditambahkan.',
+            'data' => $bangunRuang,
         ]);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $userId = $request->query('user_id'); // ambil user_id dari query parameter
+
+        if (!$userId) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User ID diperlukan untuk menghapus data.'
+            ], 400);
+        }
+
         $bangunRuang = BangunRuang::findOrFail($id);
+
+        // Pastikan user_id cocok dengan pemilik data (authorization sederhana)
+        if ($bangunRuang->user_id !== $userId) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Anda tidak memiliki akses untuk menghapus data ini.'
+            ], 403);
+        }
 
         // Hapus file gambar jika ada
         if ($bangunRuang->gambar && Storage::disk('public')->exists($bangunRuang->gambar)) {
@@ -56,7 +78,9 @@ class BangunRuangController extends Controller
         // Hapus data dari database
         $bangunRuang->delete();
 
-        return redirect()->route('show')->with('success', 'Data berhasil dihapus.');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data berhasil dihapus.'
+        ]);
     }
-
 }
