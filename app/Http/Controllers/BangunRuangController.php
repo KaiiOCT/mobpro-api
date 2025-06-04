@@ -28,7 +28,7 @@ class BangunRuangController extends Controller
         ]);
 
         $path = $request->file('gambar')->store('gambar-bangun-ruang', 'public');
-        $userId = $request->header('Authorization'); // <- ambil dari header
+        $userId = $request->header('X-User-Id'); // <- ambil dari header
         BangunRuang::create([
             'nama' => $request->nama,
             'gambar' => $path,
