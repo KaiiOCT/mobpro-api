@@ -28,11 +28,12 @@ class BangunRuangController extends Controller
         ]);
 
         $path = $request->file('gambar')->store('gambar-bangun-ruang', 'public');
-        $userId = $request->header('X-User-Id'); // <- ambil dari header
+        $email = $request->header('Authorization'); // <- ambil dari header
+
         BangunRuang::create([
             'nama' => $request->nama,
             'gambar' => $path,
-            'user_id' => $userId,
+            'email' => $email,
         ]);
 
         return response()->json([
