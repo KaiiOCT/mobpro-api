@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('gambar');
-            $table->unsignedBigInteger('user_id'); // kolom untuk id user pemilik data
+            $table->string('user_id'); // kolom untuk id user pemilik data
             $table->timestamps();
         });
     }
