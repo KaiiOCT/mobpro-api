@@ -10,22 +10,15 @@ class BangunRuangController extends Controller
 {
     public function index(Request $request)
     {
-        $userId = $request->query('userId'); // ambil userId dari query param
+        $userId = $request->query('user_id');  // atau bisa pake route param
 
-        if (!$userId) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'User ID diperlukan.'
-            ], 400);
+        if ($userId) {
+            $data = BangunRuang::where('user_id', $userId)->get();
+        } else {
+            $data = BangunRuang::all();
         }
 
-        // Ambil data yang user_id nya sama dengan $userId
-        $data = BangunRuang::where('user_id', $userId)->get();
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $data
-        ]);
+        return response()->json($data);
     }
 
     public function create()
