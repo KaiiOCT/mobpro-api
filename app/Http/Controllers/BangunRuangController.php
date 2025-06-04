@@ -34,7 +34,10 @@ class BangunRuangController extends Controller
             'gambar' => $path,
         ]);
 
-        return redirect()->route('show')->with('success', 'Data berhasil ditambahkan.');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data berhasil ditambahkan.'
+        ]);
     }
 
     public function destroy($id)
