@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\BangunRuang;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class BangunRuangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = BangunRuang::all();
+        $userId = $request->query('email');  // atau bisa pake route param
+
+        if ($userId) {
+            $data = BangunRuang::where('email', $userId)->get();
+        } else{
+            $data = BangunRuang::all();
+        }
+
         return response()->json($data);
-//        return view('show', compact('data'));
     }
 
     public function create()
@@ -23,7 +28,6 @@ class BangunRuangController extends Controller
 
     public function store(Request $request)
     {
-        Log::info('Headers: ', $request->headers->all());
         $request->validate([
             'nama' => 'required|string|max:255',
             'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
