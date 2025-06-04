@@ -11,8 +11,8 @@ class BangunRuangController extends Controller
     public function index()
     {
         $data = BangunRuang::all();
-//        return response()->json($data);
-        return view('show', compact('data'));
+        return response()->json($data);
+//        return view('show', compact('data'));
     }
 
     public function create()
