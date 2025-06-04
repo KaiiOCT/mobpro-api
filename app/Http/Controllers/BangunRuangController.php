@@ -30,7 +30,7 @@ class BangunRuangController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'gambar' => 'required|image|mimes:jpg,jpeg,png',
             'user_id' => 'required|exists:users,id',
         ]);
 
