@@ -12,6 +12,7 @@ class BangunRuang extends Model
     protected $fillable = [
         'nama',
         'gambar',
+        'email'
     ];
 
     public $timestamps = false;
