@@ -41,7 +41,7 @@ class BangunRuangController extends Controller
     public function store(Request $request)
     {
         $email = $request->header('Authorization'); // <- ambil dari header
-        if($email){
+//        if($email){
             $request->validate([
                 'nama' => 'required|string|max:255',
                 'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
@@ -58,10 +58,10 @@ class BangunRuangController extends Controller
                 'status' => 'success',
                 'message' => 'Data berhasil ditambahkan.'
             ]);
-        }
-        return response()->json([
-            'message' => 'Anda Belum Login.'
-        ], 401);
+//        }
+//        return response()->json([
+//            'message' => 'Anda Belum Login.'
+//        ], 401);
     }
 
     public function update(Request $request, $id)
