@@ -61,7 +61,7 @@ class BangunRuangController extends Controller
         }
         return response()->json([
             'message' => 'Anda Belum Login.'
-        ]);
+        ], 401);
     }
 
     public function update(Request $request, $id)
