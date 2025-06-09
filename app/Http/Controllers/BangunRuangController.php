@@ -54,12 +54,16 @@ class BangunRuangController extends Controller
                 'gambar' => $path,
                 'email' => $email,
             ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data berhasil ditambahkan.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Anda Belum Login.'
+            ]);
         }
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data berhasil ditambahkan.'
-        ]);
     }
 
     public function update(Request $request, $id)
