@@ -40,14 +40,14 @@ class BangunRuangController extends Controller
 
     public function store(Request $request)
     {
-        if($request->header('Authorization')){
+        $email = $request->header('Authorization'); // <- ambil dari header
+        if($email){
             $request->validate([
                 'nama' => 'required|string|max:255',
                 'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             $path = $request->file('gambar')->store('gambar-bangun-ruang', 'public');
-            $email = $request->header('Authorization'); // <- ambil dari header
 
             BangunRuang::create([
                 'nama' => $request->nama,
@@ -58,9 +58,8 @@ class BangunRuangController extends Controller
                 'status' => 'success',
                 'message' => 'Data berhasil ditambahkan.'
             ]);
-        } else {
+        } elseif(!$email) {
             return response()->json([
-                'status' => 'failed',
                 'message' => 'Anda Belum Login.'
             ]);
         }
